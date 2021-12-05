@@ -1,23 +1,19 @@
 """Users tests."""
-from cerberus import Validator
 from django.test import TestCase
 from rest_framework import status
-from rest_framework.test import APIClient
 
 from coin_usage.users.models import User
-from coin_usage.utils.tests import create_user
+from coin_usage.utils.tests import TestUtils
 
 from .schemas.users_schemas import user_login_schema, user_schema
 
 
-class UsersTestCase(TestCase):
+class UsersTestCase(TestCase, TestUtils):
     """Users tests."""
 
     def setUp(self):
         """Set up."""
-        self.api = APIClient()
-        self.validator = Validator()
-        self.headers = {}
+        self.initialize()
 
     def test_users_signup(self):
         """Test users signup."""
@@ -50,7 +46,7 @@ class UsersTestCase(TestCase):
             "username": "someusername",
             "password": "Test1234strong*",
         }
-        create_user()
+        self.create_user()
         response = self.api.post("/users/login/", format="json", data=data)
         is_valid = self.validator.validate(response.data, user_login_schema)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -62,6 +58,6 @@ class UsersTestCase(TestCase):
             "username": "someusername",
             "password": "test1234",
         }
-        create_user()
+        self.create_user()
         response = self.api.post("/users/login/", format="json", data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
