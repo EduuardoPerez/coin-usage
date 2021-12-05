@@ -47,10 +47,8 @@ DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
     "django.forms",
 ]
@@ -68,10 +66,6 @@ LOCAL_APPS = [
     "coin_usage.users.apps.UsersAppConfig",
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
-# MIGRATIONS
-# ------------------------------------------------------------------------------
-MIGRATION_MODULES = {"sites": "coin_usage.contrib.sites.migrations"}
 
 
 # PASSWORDS

@@ -1,5 +1,5 @@
 """Users views."""
-from rest_framework import mixins, status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -8,7 +8,7 @@ from coin_usage.users.models import User
 from coin_usage.users.serializers import UserLoginSerializer, UserModelSerializer, UserSignUpSerializer
 
 
-class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+class UserViewSet(viewsets.GenericViewSet):
     """User view set.
 
     Handle sign up and login.
