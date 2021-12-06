@@ -2,7 +2,7 @@
 from django.test import TestCase
 from rest_framework import status
 
-from coin_usage.accounts.models import Account, Balance
+from coin_usage.accounts.models import Balance
 from coin_usage.coins.models import Coin
 from coin_usage.users.models import User
 from coin_usage.utils.tests import TestUtils
@@ -47,3 +47,63 @@ class AccountTestCase(TestCase, TestUtils):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(is_valid)
         self.assertEqual(response.json()["balances"][0]["amount"], Balance.objects.first().amount, 150)
+
+    def test_send_coin_to_another_user_with_balance_in_coin(self):
+        """Test in account with balance."""
+        self.create_coin()
+        coin = Coin.objects.first()
+        another_user = User.objects.create_user(
+            username="another_user",
+            email="another@user.test",
+            password="anotherTest1234strong*",
+        )
+        Balance.objects.create(coin=coin, account=User.objects.first().account, amount=50)
+        Balance.objects.create(coin=coin, account=another_user.account, amount=75)
+        access_token = self.login_user()["access_token"]
+        self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
+        data = {
+            "address": another_user.account.address,
+            "balance": {
+                "coin": coin.ticker_symbol,
+                "amount": 25,
+            },
+        }
+        response = self.api.patch("/accounts/send/", data=data, format="json")
+        is_valid = self.validator.validate(response.data, account_balance_schema)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(is_valid)
+        self.assertEqual(
+            response.json()["balances"][0]["amount"],
+            Balance.objects.get(account__address=response.json()["address"], coin=coin).amount,
+            25,
+        )
+
+    def test_send_coin_to_another_user_without_balance_in_coin(self):
+        """Test in account without balance."""
+        self.create_coin()
+        coin = Coin.objects.first()
+        another_user = User.objects.create_user(
+            username="another_user",
+            email="another@user.test",
+            password="anotherTest1234strong*",
+        )
+        Balance.objects.create(coin=coin, account=User.objects.first().account, amount=50)
+        access_token = self.login_user()["access_token"]
+        self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
+        data = {
+            "address": another_user.account.address,
+            "balance": {
+                "coin": coin.ticker_symbol,
+                "amount": 25,
+            },
+        }
+        response = self.api.patch("/accounts/send/", data=data, format="json")
+        is_valid = self.validator.validate(response.data, account_balance_schema)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(is_valid)
+        self.assertEqual(
+            response.json()["balances"][0]["amount"],
+            Balance.objects.get(account__address=response.json()["address"], coin=coin).amount,
+            25,
+        )
+        self.assertEqual(another_user.account.balances.first().amount, 25)

@@ -29,6 +29,7 @@ class Balance(BaseModel):
         balance = self.get_queryset().select_for_update().get()
         balance.amount += amount
         balance.save()
+        return balance.amount
 
     @transaction.atomic()
     def withdraw(self, amount):
@@ -36,10 +37,11 @@ class Balance(BaseModel):
         if amount <= 0:
             raise InvalidAmount()
         balance = self.get_queryset().select_for_update().get()
-        if amount > balance.balance:
+        if amount > balance.amount:
             raise InsufficientFunds()
         balance.amount -= amount
         balance.save()
+        return balance.amount
 
     class Meta:
         """Meta class."""
