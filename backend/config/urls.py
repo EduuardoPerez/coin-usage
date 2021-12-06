@@ -11,6 +11,7 @@ urlpatterns = [
     path("", include(("coin_usage.users.urls", "users"), namespace="users")),
     path("", include(("coin_usage.coins.urls", "coins"), namespace="coins")),
     path("", include(("coin_usage.accounts.urls", "accounts"), namespace="accounts")),
+    path("", include(("coin_usage.transactions.urls", "transactions"), namespace="transactions")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

@@ -66,6 +66,7 @@ LOCAL_APPS = [
     "coin_usage.users.apps.UsersAppConfig",
     "coin_usage.coins.apps.CoinsAppConfig",
     "coin_usage.accounts.apps.AccountsAppConfig",
+    "coin_usage.transactions.apps.TransactionsAppConfig",
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
