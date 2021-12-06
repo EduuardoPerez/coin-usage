@@ -13,8 +13,8 @@ class Balance(BaseModel):
     Represent the balance of a coin for an user.
     """
 
-    user = ForeignKey("users.User", on_delete=CASCADE, verbose_name=_("user"), related_name="balances")
     coin = ForeignKey("coins.Coin", on_delete=CASCADE, verbose_name=_("coin"), related_name="balances")
+    account = ForeignKey("accounts.Account", on_delete=CASCADE, verbose_name=_("account"), related_name="balances")
     amount = FloatField(verbose_name=_("amount"))
 
     def get_queryset(self):
@@ -27,7 +27,7 @@ class Balance(BaseModel):
         if amount <= 0:
             raise InvalidAmount()
         balance = self.get_queryset().select_for_update().get()
-        balance.balance += amount
+        balance.amount += amount
         balance.save()
 
     @transaction.atomic()
@@ -38,12 +38,14 @@ class Balance(BaseModel):
         balance = self.get_queryset().select_for_update().get()
         if amount > balance.balance:
             raise InsufficientFunds()
-        balance.balance -= amount
+        balance.amount -= amount
         balance.save()
 
     class Meta:
         """Meta class."""
 
+        db_table = "balance"
         verbose_name = _("balance")
         verbose_name_plural = _("balances")
-        unique_together = ("user", "coin")
+        unique_together = ("coin", "account")
+        ordering = ["account", "coin"]

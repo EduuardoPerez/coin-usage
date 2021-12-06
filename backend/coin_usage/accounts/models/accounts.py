@@ -1,5 +1,5 @@
 """Accounts models."""
-from django.db.models import CASCADE, CharField, ForeignKey, OneToOneField
+from django.db.models import CASCADE, CharField, OneToOneField
 from django.utils.translation import gettext_lazy as _
 
 from coin_usage.accounts.managers import AccountsManager
@@ -14,9 +14,6 @@ class Account(BaseModel):
 
     address = CharField(max_length=35, unique=True, verbose_name=_("address"))
     user = OneToOneField("users.User", on_delete=CASCADE, verbose_name=_("user"), related_name="account")
-    balance = ForeignKey(
-        "accounts.Balance", null=True, on_delete=CASCADE, verbose_name=_("balance"), related_name="accounts"
-    )
 
     objects = AccountsManager()
 
