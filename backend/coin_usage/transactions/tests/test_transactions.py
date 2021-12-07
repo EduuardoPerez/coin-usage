@@ -18,4 +18,4 @@ class TransactionTestCase(TestCase, TestUtils):
         """Test list transactions."""
         response = self.api.get("/transactions/", format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.json()), 5)
+        self.assertEqual(len(response.json()["results"]), 5)

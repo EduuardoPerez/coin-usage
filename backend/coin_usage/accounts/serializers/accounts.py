@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from coin_usage.accounts.models import Account, Balance
 from coin_usage.exceptions import InsufficientFunds
+from coin_usage.transactions.models import Transaction
 
 from .balances import BalanceModelSerializer
 
@@ -82,6 +83,12 @@ class SendCoinSerializer(serializers.ModelSerializer):
                 new_balance = Balance.objects.create(account=account_to, **validated_data.get("balance"))
                 account_to.balances.add(new_balance)
                 account_to.save()
+                Transaction.objects.create(
+                    account_from=instance,
+                    account_to=account_to,
+                    coin=coin,
+                    amount=amount,
+                )
                 return instance
             except InsufficientFunds:
                 raise serializers.ValidationError(_("Insufficient funds"))
@@ -89,6 +96,12 @@ class SendCoinSerializer(serializers.ModelSerializer):
             try:
                 instance.balances.get(coin=coin).withdraw(amount)
                 balance_to.deposit(amount)
+                Transaction.objects.create(
+                    account_from=instance,
+                    account_to=account_to,
+                    coin=coin,
+                    amount=amount,
+                )
                 return instance
             except InsufficientFunds:
                 raise serializers.ValidationError(_("Insufficient funds"))
