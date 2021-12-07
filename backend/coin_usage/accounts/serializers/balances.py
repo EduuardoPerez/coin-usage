@@ -31,3 +31,15 @@ class BalanceModelSerializer(serializers.ModelSerializer):
 
         model = Balance
         fields = ("coin", "amount")
+
+
+class BalanceCoinSerializer(serializers.ModelSerializer):
+    """Balance of a coin serializer."""
+
+    coin = CoinField(required=True, slug_field="ticker_symbol")
+
+    class Meta:
+        """Meta class."""
+
+        model = Balance
+        fields = ("coin", "amount")

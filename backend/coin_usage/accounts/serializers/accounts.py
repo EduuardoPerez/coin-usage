@@ -10,7 +10,7 @@ from coin_usage.transactions.models import Transaction
 from .balances import BalanceModelSerializer
 
 
-class AccountModelSerializer(serializers.ModelSerializer):
+class AccountBalancesModelSerializer(serializers.ModelSerializer):
     """Account model serializer."""
 
     balances = BalanceModelSerializer(many=True)

@@ -1,5 +1,6 @@
 """Accounts tests."""
 from django.test import TestCase
+from model_bakery import baker
 from rest_framework import status
 
 from coin_usage.accounts.models import Balance
@@ -7,7 +8,7 @@ from coin_usage.coins.models import Coin
 from coin_usage.users.models import User
 from coin_usage.utils.tests import TestUtils
 
-from .schemas.accounts_schemas import account_balance_schema
+from .schemas.accounts_schemas import account_balance_schema, balance_schema
 
 
 class AccountTestCase(TestCase, TestUtils):
@@ -107,3 +108,40 @@ class AccountTestCase(TestCase, TestUtils):
             25,
         )
         self.assertEqual(another_user.account.balances.first().amount, 25)
+
+    def test_balances_account(self):
+        """Check the balances of an account."""
+        self.create_coin()
+        coin = Coin.objects.first()
+        Balance.objects.create(coin=coin, account=User.objects.first().account, amount=50)
+        access_token = self.login_user()["access_token"]
+        self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
+        response = self.api.get("/accounts/balances/", format="json")
+        is_valid = self.validator.validate(response.data, account_balance_schema)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(is_valid)
+        self.assertEqual(response.json()["balances"][0]["amount"], Balance.objects.first().amount, 50)
+
+    def test_balances_coin_account(self):
+        """Check the balances of a coin in an account."""
+        ticker_symbol = self.create_coin()
+        account = User.objects.first().account
+        baker.make("accounts.Balance", account=account, _quantity=3)
+        coin = Coin.objects.get(ticker_symbol=ticker_symbol)
+        balance = Balance.objects.create(coin=coin, account=account, amount=50)
+        access_token = self.login_user()["access_token"]
+        self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
+        response = self.api.get(f"/accounts/coins/?coin={ticker_symbol}", format="json")
+        is_valid = self.validator.validate(response.data, balance_schema)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(is_valid)
+        self.assertEqual(response.json()["amount"], balance.amount, 50)
+
+    def test_balances_coin_account_error(self):
+        """Check the balances of a coin in an account."""
+        access_token = self.login_user()["access_token"]
+        account = User.objects.first().account
+        baker.make("accounts.Balance", account=account, _quantity=3)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
+        response = self.api.get("/accounts/coins/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
