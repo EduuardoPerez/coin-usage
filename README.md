@@ -23,7 +23,7 @@ To start testing the API download the postman collection clicking [here](https:/
 
 This can take a while, especially the first time you run this particular command on your development system:
 
-```python
+```bash
 docker-compose -f backend/local.yml up --build
 ```
 
@@ -31,11 +31,13 @@ If you want to emulate production environment use `backend/production.yml` ins
 
 After the stack is created you can run it only with `docker-compose -f backend/local.yml up`
 
+Runs on `http://localhost:8000`
+
 ## Tests
 
 ### Run tests
 
-```python
+```bash
 docker-compose -f backend/local.yml run --rm --service-ports django pytest
 ```
 
@@ -44,20 +46,18 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
 1. For security reasons, only superuser can create coins or list coins balances.
     1. The superusers has to be created from django admin, or executing:
         
-        ```python
+        ```bash
         docker-compose -f backend/local.yml run --rm --service-ports django python manage.py createsuperuser
         ```
         
-2. Before send money to other user the account has to have balance. Use /accounts/deposit/ to found the account.
+2. Before send money to other user the account has to have balance. Use the `/accounts/deposit/` endpoint to found the account.
 3. Anyone can view the transactions list.
 
 ## Endpoints
 
-<aside>
-💡 Most of the endpoints (except `/users/signup` and `/users/login`) require an authorization header with a token value.
+💡 Most of the endpoints (except `/users/signup`, `/users/login` and `/transactions/`) require an authorization header with a token value.
 The content of the header should look like the following: `Authorization: Token <token>`
 
-</aside>
 
 - Create account: POST → /users/signup
     - Payload:
@@ -102,7 +102,7 @@ The content of the header should look like the following: `Authorization: Token 
         
         {
             "user": {
-        			"email": "some@email.test",
+                "email": "some@email.test",
         	    "username": "someusername",
         	    "first_name": "some first name",
         	    "last_name": "some last name",
@@ -115,7 +115,7 @@ The content of the header should look like the following: `Authorization: Token 
 - Create coin: POST → /coins
     - Payload:
         
-        ```python
+        ```json
         {
         	"ticker_symbol": "RPC",
         	"name": "Ripio Coin",
@@ -124,7 +124,7 @@ The content of the header should look like the following: `Authorization: Token 
         
     - Response:
         
-        ```python
+        ```json
         {
         	"ticker_symbol": "RPC",
         	"name": "Ripio Coin",
@@ -135,7 +135,7 @@ The content of the header should look like the following: `Authorization: Token 
 - Deposit in an account: PATCH → /accounts/deposit/
     - Payload:
         
-        ```python
+        ```json
         {
             "balance":{
                 "coin": "RPC",
