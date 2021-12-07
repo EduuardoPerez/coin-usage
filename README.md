@@ -4,6 +4,10 @@
 
 Application developed to manage the handling of coins.
 
+# Postman Collection
+---
+To start testing the API download the postman collection clicking [here](https://www.postman.com/eduuardoperez/workspace/shared-workspace/collection/9295619-05f2cc07-a230-42ef-ab44-e99a08cec610)
+
 # Backend
 
 ---
