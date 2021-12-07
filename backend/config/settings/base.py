@@ -65,6 +65,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "coin_usage.users.apps.UsersAppConfig",
     "coin_usage.coins.apps.CoinsAppConfig",
+    "coin_usage.accounts.apps.AccountsAppConfig",
+    "coin_usage.transactions.apps.TransactionsAppConfig",
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -212,6 +214,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10,
 }
 
 # django-cors-headers

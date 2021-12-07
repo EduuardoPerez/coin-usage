@@ -8,7 +8,7 @@ from coin_usage.utils.models import BaseModel
 class Coin(BaseModel):
     """Coin model.
 
-    Represent the coin entity.s
+    Represent the coin entity.
     """
 
     ticker_symbol = CharField(

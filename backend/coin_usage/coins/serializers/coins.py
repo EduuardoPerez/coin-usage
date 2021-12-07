@@ -5,7 +5,7 @@ from coin_usage.coins.models import Coin
 
 
 class CoinModelSerializer(serializers.ModelSerializer):
-    """User model serializer."""
+    """Coin model serializer."""
 
     class Meta:
         """Meta class."""

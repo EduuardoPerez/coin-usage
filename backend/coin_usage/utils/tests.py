@@ -54,3 +54,10 @@ class TestUtils:
         }
         response = self.api.post("/users/login/", format="json", data=data)
         return response.json()
+
+    def create_coin(self):
+        """Create coin."""
+        access_token = self.login_superuser()["access_token"]
+        self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
+        response = self.api.post("/coins/", format="json", data=self.coin_data)
+        return response.json()["ticker_symbol"]

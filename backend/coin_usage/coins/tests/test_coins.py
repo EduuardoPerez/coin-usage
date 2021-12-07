@@ -18,7 +18,6 @@ class CoinsTestCase(TestCase, TestUtils):
     def test_create_coin(self):
         """Test create a coin."""
         access_token = self.login_superuser()["access_token"]
-        breakpoint()
         self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
         response = self.api.post("/coins/", format="json", data=self.coin_data)
         is_valid = self.validator.validate(response.data, coin_schema)
