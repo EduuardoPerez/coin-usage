@@ -43,3 +43,25 @@ class BalanceCoinSerializer(serializers.ModelSerializer):
 
         model = Balance
         fields = ("coin", "amount")
+
+
+class BalanceUserCoinSerializer(serializers.ModelSerializer):
+    """Balance of a coin by user serializer."""
+
+    username = serializers.SerializerMethodField()
+    coin = serializers.SerializerMethodField()
+    amount = serializers.FloatField()
+
+    def get_username(self, obj):
+        """Get the user."""
+        return obj.account.user.username
+
+    def get_coin(self, obj):
+        """Get the coin."""
+        return obj.coin.ticker_symbol
+
+    class Meta:
+        """Meta class."""
+
+        model = Balance
+        fields = ("username", "coin", "amount")

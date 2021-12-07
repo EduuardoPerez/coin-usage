@@ -34,8 +34,7 @@ class AccountViewSet(viewsets.GenericViewSet):
 
     def get_queryset(self):
         """Get queryset."""
-        if self.action == "deposit":
-            return Account.objects.get(user=self.request.user)
+        return Account.objects.get(user=self.request.user)
 
     @action(detail=False, methods=["PATCH"])
     def deposit(self, request, *args, **kwargs):
