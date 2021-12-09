@@ -219,6 +219,6 @@ REST_FRAMEWORK = {
 }
 
 # django-cors-headers
-CORS_URLS_REGEX = r"^/api/.*$"
+# CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
