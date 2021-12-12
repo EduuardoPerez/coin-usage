@@ -1,13 +1,15 @@
-import axios from 'axios';
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { signup } from '@services'
 import Error from '@components/Error';
+import CreateAccountSuccessfully from '@components/CreateAccountSuccessfully';
 import '@styles/CreateAccount.scss';
 
 const CreateAccount = () => {
 	const form = useRef(null);
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+	const [signupSuccess, setSignupSuccess] = useState(false);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -25,6 +27,11 @@ const CreateAccount = () => {
 			setErrorMessage('username, email, password and password confirmation are required.');
 			return;
 		}
+		if (password !== passwordConfirmation) {
+			setError(true);
+			setErrorMessage('password and password confirmation don\'t match.');
+			return;
+		}
 
 		const data = {
 			first_name: firstName,
@@ -36,9 +43,9 @@ const CreateAccount = () => {
 		};
 
 		signup(data)
-			.then(res => {
-				console.log(res);
-				localStorage.setItem('COIN_USAGE_TOKEN', res.data.access_token);
+			.then(() => {
+				setSignupSuccess(true);
+				setError(false);
 			})
 			.catch((error) => {
 				setError(true);
@@ -46,13 +53,15 @@ const CreateAccount = () => {
 				let errMsgs = '';
 				Object.entries(res).forEach((err) => {
 					const [key, value] = err;
-					errMsgs += `${value}\n`;
+					errMsgs += `${key}: ${value}\n`;
 				});
 				setErrorMessage(errMsgs);
 			});
 	}
 
 	const errorComponent = (error) ? <Error message={errorMessage} /> : null;
+	const signupButton = <button type="submit" className="primary-button login-button" onClick={handleSubmit}>Create account</button>
+	const signupComponent = (signupSuccess) ? <CreateAccountSuccessfully /> : signupButton;
 
 	return (
 		<div className="CreateAccount">
@@ -74,7 +83,12 @@ const CreateAccount = () => {
 						<label htmlFor="password-confirmation" className="label">Password confirmation</label>
 						<input type="password" name="password-confirmation" id="password-confirmation" placeholder="*********" className="input input-password" />
 					</div>
-					<button type="submit" className="primary-button login-button" onClick={handleSubmit}>Create account</button>
+					{signupComponent}
+					<Link to="/login">
+						<button className="secondary-button signup-button">
+							Login
+						</button>
+					</Link>
 				</form>
 			</div>
 		</div>
