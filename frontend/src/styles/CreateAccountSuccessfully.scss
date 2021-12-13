@@ -1,0 +1,10 @@
+@import 'vars';
+
+.message {
+	background-color: var(--hospital-green);
+	padding: 1rem;
+	color: white;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+}

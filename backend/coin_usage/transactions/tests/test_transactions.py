@@ -48,3 +48,15 @@ class TransactionTestCase(TestCase, TestUtils):
         self.assertEqual(Transaction.objects.count(), 1)
         transaction = Transaction.objects.first()
         self.assertEqual(transaction.account_to, another_user.account)
+
+    def test_list_account_transactions(self):
+        """Test list transactions."""
+        access_token = self.login_user()["access_token"]
+        user = User.objects.first()
+        account = user.account
+        baker.make("transactions.Transaction", account_from=account, _quantity=4)
+        baker.make("transactions.Transaction", account_to=account, _quantity=3)
+        self.api.credentials(HTTP_AUTHORIZATION=f"Token {access_token}")
+        response = self.api.get("/transactions/accounts/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.json()), 7)
