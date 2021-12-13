@@ -327,3 +327,47 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
             }
         ]
         ```
+        
+
+- Get transactions of the account: GET → /transactions/accounts/
+    - Response
+        
+        ```json
+        [
+            {
+                "created": "2021-12-07T00:35:56.984592Z",
+                "account_from": "t2YrlMiDL47Gl6g85LhTiWoIoj0jHQf1Ish",
+                "account_to": "m9r2S1PdcbskYSmDT3HHKM5j4w2xxVN2vXl",
+                "coin": "BTC",
+                "amount": 1.0
+            },
+            {
+                "created": "2021-12-07T00:35:47.171521Z",
+                "account_from": "t2YrlMiDL47Gl6g85LhTiWoIoj0jHQf1Ish",
+                "account_to": "m9r2S1PdcbskYSmDT3HHKM5j4w2xxVN2vXl",
+                "coin": "RPC",
+                "amount": 33.0
+            },
+            {
+                "created": "2021-12-07T00:35:11.347981Z",
+                "account_from": "t2YrlMiDL47Gl6g85LhTiWoIoj0jHQf1Ish",
+                "account_to": "xh4tigzr9wQ4UaBZSoDGySxZSSXOkCQgYrA",
+                "coin": "RPC",
+                "amount": 578.0
+            },
+            {
+                "created": "2021-12-07T00:35:00.204685Z",
+                "account_from": "t2YrlMiDL47Gl6g85LhTiWoIoj0jHQf1Ish",
+                "account_to": "xh4tigzr9wQ4UaBZSoDGySxZSSXOkCQgYrA",
+                "coin": "BTC",
+                "amount": 10.0
+            },
+            {
+                "created": "2021-12-07T00:34:02.705400Z",
+                "account_from": "t2YrlMiDL47Gl6g85LhTiWoIoj0jHQf1Ish",
+                "account_to": "xh4tigzr9wQ4UaBZSoDGySxZSSXOkCQgYrA",
+                "coin": "RPC",
+                "amount": 100.0
+            }
+        ]
+        ```
