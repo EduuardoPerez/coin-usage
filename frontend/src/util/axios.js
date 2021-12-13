@@ -30,6 +30,7 @@ api.interceptors.response.use(
         if (error.response.status === 401) {
             console.log('error 401?');
             localStorage.removeItem('COIN_USAGE_TOKEN');
+            localStorage.removeItem('username');
             window.location.href = '/login';
         }
         return Promise.reject(error);
