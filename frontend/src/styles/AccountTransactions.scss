@@ -1,0 +1,53 @@
+@import 'vars';
+
+.account-transactions {
+	width: 100%;
+	height: 70vh;
+	display: grid;
+	place-items: center;
+}
+.account-transactions-container {
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	width: 800px;
+}
+.title {
+	font-size: var(--lg);
+	margin-bottom: 36px;
+	text-align: center;
+}
+table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background:white;
+    border-radius:6px;
+    overflow:hidden;
+    max-width:800px;
+    width:100%;
+    margin:0 auto;
+    position:relative;
+	font-size: var(--sm);
+
+    * { position:relative }
+
+    td,th { padding-left:8px}
+
+    thead tr{
+        height:60px;
+        background:var(--hospital-green);
+        font-size:16px;
+    }
+
+    tbody tr {
+        height:48px;
+        border-bottom:1px solid #E3F1D5;
+        &:last-child  { border:0; }
+    }
+
+    td,th {
+        text-align:center;
+        &.l { text-align:right }
+        &.c { text-align:center }
+        &.r { text-align:center }
+    }
+}
