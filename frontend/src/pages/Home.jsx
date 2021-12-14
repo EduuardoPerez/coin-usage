@@ -16,7 +16,7 @@ const Home = () => {
 						Send coins
 					</button>
 				</Link>
-				<Link to="/balances">
+				<Link to="/account-balances">
 					<button className="primary-button">
 						Show balances
 					</button>
