@@ -6,6 +6,7 @@ import Login from '@pages/Login';
 import CreateAccount from '@pages/CreateAccount';
 import NotFound from '@pages/NotFound';
 import DepositCoins from '@pages/DepositCoins';
+import CreateCoin from '@pages/CreateCoin';
 import SendCoins from '@pages/SendCoins';
 import AccountBalances from '@pages/AccountBalances';
 import AccountTransactions from '@pages/AccountTransactions';
@@ -25,6 +26,7 @@ const App = () => {
 						<Route exact path="/signup" component={CreateAccount} />
 						<Route exact path="/login" component={Login} />
 						<Route exact path="/deposit-coins" component={DepositCoins} />
+						<Route exact path="/create-coin" component={CreateCoin} />
 						<Route exact path="/send-coins" component={SendCoins} />
 						<Route exact path="/account-balances" component={AccountBalances} />
 						<Route exact path="/account-transactions" component={AccountTransactions} />
