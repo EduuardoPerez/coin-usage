@@ -27,3 +27,7 @@ export const getAccountBalances = () => {
 export const getAccountTransactions = () => {
   return axios.get('/transactions/accounts/');
 };
+
+export const getGlobalTransactions = () => {
+  return axios.get('/transactions/');
+};
