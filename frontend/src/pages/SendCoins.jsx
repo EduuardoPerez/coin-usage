@@ -3,39 +3,41 @@ import Error from '@components/Error';
 import Success from '@components/Success';
 import CoinOption from '@components/CoinOption';
 import useGetCoins from '@hooks/useGetCoins';
-import { depositCoins } from '@services'
-import '@styles/DepositCoins.scss';
+import { sendCoins } from '@services'
+import '@styles/SendCoins.scss';
 
-const DepositCoins = () => {
-    const coins = useGetCoins();
+const SendCoins = () => {
+    const ADDRESS_LENGTH = 35;
     const form = useRef(null);
+    const coins = useGetCoins();
+    const [sendSuccess, setSendSuccess] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [depositSuccess, setDepositSuccess] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
-    const errorComponent = (error) ? <Error message={errorMessage} /> : null;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(form.current);
 
+        const accountAddress = formData.get('account-address');
         const coin = formData.get('coin');
         const amount = formData.get('amount');
 
-        if (coin === '' || amount === '' || amount <= 0) {
+        if (accountAddress === '' || accountAddress.length !== ADDRESS_LENGTH || coin === '' || amount === '' || amount <= 0) {
             setError(true);
-            setErrorMessage('Coin and amount are required and amount must be greater than 0.');
+            setErrorMessage('Please fill all the fields. Address must be 35 characters long.');
             return;
         }
         const data = {
+            address: accountAddress,
             balance: {
                 coin: coin,
                 amount: amount
             }
         }
-        depositCoins(data)
+        sendCoins(data)
             .then((res) => {
-                setDepositSuccess(true);
+                setSendSuccess(true);
                 setError(false);
                 let successMsg = '';
                 Object.entries(res.data.balances).forEach((balance) => {
@@ -53,33 +55,35 @@ const DepositCoins = () => {
                 });
                 setErrorMessage(errMsgs);
             });
-    };
+    }
 
-    const depositButton = <button type="submit" className="primary-button" onClick={handleSubmit}>Deposit</button>
-    const depositComponent = (depositSuccess) ? <Success message={`Deposit done! \n\n${successMessage}`} /> : depositButton;
-
+    const sendButton = <button type="submit" className="primary-button" onClick={handleSubmit}>Send coins</button>
+    const sendComponent = (sendSuccess) ? <Success message={`Coins sent! \n\n${successMessage}`} /> : sendButton;
+    const errorComponent = (error) ? <Error message={errorMessage} /> : null;
 
     return (
-        <div className="deposit-coins">
-            <div className="deposit-coins-container">
-                <h1 className="title">Deposit Coins</h1>
+        <div className="send-coins">
+            <div className="send-coins-container">
+                <h1 className="title">Send Coins</h1>
                 <form action="/" className="form" ref={form}>
                     {errorComponent}
                     <div>
+                        <label htmlFor="account-address" className="label">Account address</label>
+                        <input type="text" name="account-address" id="account-address" placeholder="Account address to send coins" className="input input-account-address" />
                         <label htmlFor="coin" className="label">Coin</label>
-                        <select type="number" name="coin" id="coin" placeholder="Coin to deposit" className="input input-coin">
+                        <select type="number" name="coin" id="coin" placeholder="Coin to send" className="input input-coin">
                             {coins.map(coin => (
                                 <CoinOption coin={coin} key={coin.ticker_symbol} />
                             ))}
                         </select>
                         <label htmlFor="amount" className="label">Amount</label>
-                        <input type="number" name="amount" id="amount" placeholder="Amount to deposit" className="input input-amount" />
+                        <input type="number" name="amount" id="amount" placeholder="Amount to send" className="input input-amount" />
                     </div>
-                    {depositComponent}
+                    {sendComponent}
                 </form>
             </div>
         </div>
     );
 }
 
-export default DepositCoins;
+export default SendCoins;

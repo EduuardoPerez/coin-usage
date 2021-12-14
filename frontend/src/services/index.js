@@ -12,6 +12,10 @@ export const getCoins = () => {
   return axios.get('/coins/');
 };
 
-export const depositCoin = (data) => {
+export const depositCoins = (data) => {
   return axios.patch('/accounts/deposit/', data);
+};
+
+export const sendCoins = (data) => {
+  return axios.patch('/accounts/send/', data);
 };
