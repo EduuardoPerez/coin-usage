@@ -1,11 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { login } from '@services'
 import Error from '@components/Error';
+import { AppContext } from '@context/AppContext';
 import '@styles/Login.scss';
 import logo from '@logos/rpc_coin.svg'
 
 const Login = () => {
+	const { activateAuth } = useContext(AppContext)
 	const form = useRef(null);
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
@@ -30,9 +32,7 @@ const Login = () => {
 		login(data)
 			.then((res) => {
 				setError(false);
-				localStorage.setItem('username', username);
-				localStorage.setItem('COIN_USAGE_TOKEN', res.data.access_token);
-				window.location.href = '/';
+				activateAuth(username, res.data.access_token, res.data.user.is_staff);
 			})
 			.catch((error) => {
 				setError(true);

@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AppContext } from '@context/AppContext';
 import '@styles/Home.scss';
 
 const Home = () => {
+	const { isAdmin } = useContext(AppContext)
+
 	return (
 		<div className="home">
 			<div className="home-container">
-				<Link to="/create-coin">
-					<button className="primary-button">
-						Create a coin
-					</button>
-				</Link>
+				{
+					isAdmin ? (
+						<Link to="/create-coin">
+							<button className="primary-button">
+								Create a coin
+							</button>
+						</Link>) : null
+				}
 				<Link to="/deposit-coins">
 					<button className="primary-button">
 						Deposit coins
@@ -41,11 +47,14 @@ const Home = () => {
 						Global transactions
 					</button>
 				</Link>
-				<Link to="/coins-balances">
-					<button className="primary-button">
-						Balance of each coin by users
-					</button>
-				</Link>
+				{
+					isAdmin ? (
+						<Link to="/coins-balances">
+							<button className="primary-button">
+								Balance of each coin by users
+							</button>
+						</Link>) : null
+				}
 			</div>
 		</div>
 	);
