@@ -6,6 +6,7 @@ import Login from '@pages/Login';
 import CreateAccount from '@pages/CreateAccount';
 import NotFound from '@pages/NotFound';
 import DepositCoins from '@pages/DepositCoins';
+import SendCoins from '@pages/SendCoins';
 import AppContext from '@context/AppContext';
 import useInitialState from '@hooks/useInitialState';
 import '@styles/global.css';
@@ -21,6 +22,7 @@ const App = () => {
 						<Route exact path="/signup" component={CreateAccount} />
 						<Route exact path="/login" component={Login} />
 						<Route exact path="/deposit-coins" component={DepositCoins} />
+						<Route exact path="/send-coins" component={SendCoins} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</Layout>

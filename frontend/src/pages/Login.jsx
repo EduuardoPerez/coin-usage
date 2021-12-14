@@ -29,7 +29,6 @@ const Login = () => {
 
 		login(data)
 			.then((res) => {
-				console.log(res);
 				setError(false);
 				localStorage.setItem('username', username);
 				localStorage.setItem('COIN_USAGE_TOKEN', res.data.access_token);
