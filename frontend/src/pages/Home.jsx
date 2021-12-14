@@ -6,7 +6,12 @@ const Home = () => {
 	return (
 		<div className="home">
 			<div className="home-container">
-				<Link to="/send-coin">
+				<Link to="/deposit-coins">
+					<button className="primary-button">
+						Deposit coins
+					</button>
+				</Link>
+				<Link to="/send-coins">
 					<button className="primary-button">
 						Send coins
 					</button>

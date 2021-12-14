@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signup } from '@services'
 import Error from '@components/Error';
-import CreateAccountSuccessfully from '@components/CreateAccountSuccessfully';
+import Success from '@components/Success';
 import '@styles/CreateAccount.scss';
 
 const CreateAccount = () => {
@@ -61,7 +61,7 @@ const CreateAccount = () => {
 
 	const errorComponent = (error) ? <Error message={errorMessage} /> : null;
 	const signupButton = <button type="submit" className="primary-button login-button" onClick={handleSubmit}>Create account</button>
-	const signupComponent = (signupSuccess) ? <CreateAccountSuccessfully /> : signupButton;
+	const signupComponent = (signupSuccess) ? <Success message={"Account created correctly."} /> : signupButton;
 
 	return (
 		<div className="CreateAccount">

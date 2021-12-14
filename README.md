@@ -77,7 +77,7 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
 
 ---
 
-💡 Most of the endpoints (except `/users/signup`, `/users/login` and `/transactions/`) require an authorization header with a token value. The content of the header should look like the following: `Authorization: Token <token>`
+💡 Most of the endpoints (except `/users/signup`, `/users/login`, `/transactions/` and `/coins/`) require an authorization header with a token value. The content of the header should look like the following: `Authorization: Token <token>`
 
 
 - Create account: POST → /users/signup
@@ -286,7 +286,7 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
         
 
 - Get balance of a coin of an account: GET → /accounts/coins/?coin={coin.ticker_symbol}
-    - Response
+    - Response:
         
         ```json
         {
@@ -297,7 +297,7 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
         
 
 - Get balance of each coin by user: GET → /balances/
-    - Response
+    - Response:
         
         ```json
         [
@@ -336,7 +336,7 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
         
 
 - Get transactions of the account: GET → /transactions/accounts/
-    - Response
+    - Response:
         
         ```json
         [
@@ -376,4 +376,29 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
                 "amount": 100.0
             }
         ]
+        ```
+        
+- Get list of coins: GET → /coins/
+    - Response:
+        
+        ```json
+        {
+            "count": 3,
+            "next": null,
+            "previous": null,
+            "results": [
+                {
+                    "ticker_symbol": "BTC",
+                    "name": "Bitcoin"
+                },
+                {
+                    "ticker_symbol": "RPC",
+                    "name": "Ripio Coin"
+                },
+                {
+                    "ticker_symbol": "TRX",
+                    "name": "Tron"
+                }
+            ]
+        }
         ```
