@@ -8,6 +8,7 @@ import NotFound from '@pages/NotFound';
 import DepositCoins from '@pages/DepositCoins';
 import SendCoins from '@pages/SendCoins';
 import AccountBalances from '@pages/AccountBalances';
+import AccountTransactions from '@pages/AccountTransactions';
 import AppContext from '@context/AppContext';
 import useInitialState from '@hooks/useInitialState';
 import '@styles/global.css';
@@ -25,6 +26,7 @@ const App = () => {
 						<Route exact path="/deposit-coins" component={DepositCoins} />
 						<Route exact path="/send-coins" component={SendCoins} />
 						<Route exact path="/account-balances" component={AccountBalances} />
+						<Route exact path="/account-transactions" component={AccountTransactions} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</Layout>

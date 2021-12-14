@@ -23,3 +23,7 @@ export const sendCoins = (data) => {
 export const getAccountBalances = () => {
   return axios.get('/accounts/balances/');
 };
+
+export const getAccountTransactions = () => {
+  return axios.get('/transactions/accounts/');
+};
