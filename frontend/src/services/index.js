@@ -28,10 +28,18 @@ export const getAccountBalances = () => {
     return axios.get('/accounts/balances/');
 };
 
+export const getCoinUserBalance = (coin) => {
+    return axios.get(`/accounts/coins/?coin=${coin}`);
+};
+
 export const getAccountTransactions = () => {
     return axios.get('/transactions/accounts/');
 };
 
 export const getGlobalTransactions = () => {
     return axios.get('/transactions/');
+};
+
+export const getCoinBalancesByUsers = () => {
+    return axios.get('/balances/');
 };

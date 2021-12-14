@@ -18,8 +18,6 @@ const CreateCoin = () => {
         const tickerSymbol = formData.get('ticker-symbol');
         const name = formData.get('name');
 
-        console.log(tickerSymbol, name);
-
         if (tickerSymbol === '' || tickerSymbol.length > 5 || name === '' || name.length > 50) {
             setError(true);
             setErrorMessage('Ticker symbol must be between 1 and 5 characters, and name must be between 1 and 50 characters. Both are required.');

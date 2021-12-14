@@ -9,8 +9,10 @@ import DepositCoins from '@pages/DepositCoins';
 import CreateCoin from '@pages/CreateCoin';
 import SendCoins from '@pages/SendCoins';
 import AccountBalances from '@pages/AccountBalances';
+import CoinBalance from '@pages/CoinBalance';
 import AccountTransactions from '@pages/AccountTransactions';
 import GlobalTransactions from '@pages/GlobalTransactions';
+import CoinsBalancesByUsers from '@pages/CoinsBalancesByUsers';
 import AppContext from '@context/AppContext';
 import useInitialState from '@hooks/useInitialState';
 import '@styles/global.css';
@@ -29,8 +31,10 @@ const App = () => {
 						<Route exact path="/create-coin" component={CreateCoin} />
 						<Route exact path="/send-coins" component={SendCoins} />
 						<Route exact path="/account-balances" component={AccountBalances} />
+						<Route exact path="/coin-balance" component={CoinBalance} />
 						<Route exact path="/account-transactions" component={AccountTransactions} />
 						<Route exact path="/global-transactions" component={GlobalTransactions} />
+						<Route exact path="/coins-balances" component={CoinsBalancesByUsers} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</Layout>
