@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { AppContext } from '@context/AppContext';
 import '@styles/Header.scss';
 import logo from '@logos/rpc_coin.svg';
 
 const Header = () => {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const { removeAuth, isAuth } = useContext(AppContext)
+	const [userName, setUserName] = useState('');
 
 	useEffect(() => {
-		if (localStorage.getItem('COIN_USAGE_TOKEN') !== null) {
-			setIsLoggedIn(true);
-		}
+		localStorage.getItem('USERNAME') && setUserName(localStorage.getItem('USERNAME'));
 	}, []);
 
 	const handleLogout = () => {
-		localStorage.removeItem('COIN_USAGE_TOKEN')
-		localStorage.removeItem('username')
-		setIsLoggedIn(false);
+		removeAuth();
+		setUserName('');
 	}
 
 
-	const logOutComponent = (isLoggedIn) ? <a href="/login">logout</a> : null;
+	const logOutComponent = (isAuth) ? <a href="/login">logout</a> : null;
 
 	return (
 		<nav>
 			<div className="navbar-left">
-				<a href="/">
+				<Link to="/">
 					<img src={logo} alt="logo" className="nav-logo" />
-				</a>
+				</Link>
 			</div>
 			<div className="navbar-right">
 				<ul>
-					<li
-						className="navbar-email"
-						onClick={handleLogout}
-					>
+					<li className="navbar-username">
+						{userName}
+					</li>
+					<li onClick={handleLogout}>
 						{logOutComponent}
 					</li>
 				</ul>

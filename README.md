@@ -72,6 +72,7 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
         
 2. Before send money to other user the account has to have balance. Use the `/accounts/deposit/` endpoint to found the account.
 3. Anyone can view the transactions list.
+4. Only superusers can view the coin balance by user.
 
 # Endpoints
 
@@ -123,12 +124,13 @@ docker-compose -f backend/local.yml run --rm --service-ports django pytest
         
         {
             "user": {
-                "email": "some@email.test",
-        	    "username": "someusername",
-        	    "first_name": "some first name",
-        	    "last_name": "some last name",
-            }
-            "access_token": "acb81534a08d135064c96963b546ed520b6ab4d4"
+                "email": "eperez@ripio.com",
+                "username": "eperezripio",
+                "first_name": "Eduardo",
+                "last_name": "Perez",
+                "is_staff": false
+            },
+            "access_token": "b15426f7981c1fdcb02c8d98506466837805e240"
         }
         ```
         
